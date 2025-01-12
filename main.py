@@ -28,11 +28,11 @@ player_anim_count = 0  # Переменная для анимации
 bg_x = 0  # Переменная для анимации фона 1
 bg_x1 = 1001  # Переменная для анимации фона 2
 
-enemy = pygame.image.load('images/ghost.png').convert_alpha()  # Конвертация в формат питона
-enemy_list_in_game = []
+ghost = pygame.image.load('images/ghost.png').convert_alpha()  # Конвертация в формат питона
+ghost_list_in_game = []
 
-enemy_timer = pygame.USEREVENT + 1  # Подключили таймер для появления врагов
-pygame.time.set_timer(enemy_timer, 3500)  # Враг появляется через 3 сек
+ghost_timer = pygame.USEREVENT + 1  # Подключили таймер для появления врагов
+pygame.time.set_timer(ghost_timer, 3500)  # Враг появляется через 3 сек
 
 label = pygame.font.Font('fonts/HussarMiloscOblique.otf', 35) # Переменная текста
 loose_label = label.render('  Ой, призрак задет!', True, (255, 255, 255))
@@ -58,13 +58,13 @@ while running:  # Это цикл
 
         player_rect = walk_left[0].get_rect(topleft=(player_x, player_y))  # Рисуем квадрат вокруг игрока
 
-        if enemy_list_in_game:
-            for (i, el) in enumerate(enemy_list_in_game):  # Перебираем весь список
-                screen.blit(enemy, el)
+        if ghost_list_in_game:
+            for (i, el) in enumerate(ghost_list_in_game):  # Перебираем весь список
+                screen.blit(ghost, el)
                 el.x -= 10
 
                 if el.x < -10:  # Если враг за экраном, удаляем
-                    enemy_list_in_game.pop(i)
+                    ghost_list_in_game.pop(i)
 
                 if player_rect.colliderect(el):
                     gameplay = False
@@ -118,7 +118,7 @@ while running:  # Это цикл
             gameplay = True
             player_x = 100
             player_y = 410
-            enemy_list_in_game.clear()
+            ghost_list_in_game.clear()
 
     pygame.display.update()
 
@@ -126,7 +126,7 @@ while running:  # Это цикл
         if event.type == pygame.QUIT:  # Кнопку выход нажали - выход
             running = False
             pygame.quit()
-        if event.type == enemy_timer:
-            enemy_list_in_game.append(enemy.get_rect(topleft=(1000, 430)))  # Добавление врага
+        if event.type == ghost_timer:
+            ghost_list_in_game.append(ghost.get_rect(topleft=(1000, 430)))  # Добавление врага
 
     clock.tick(15)  # Анимация будет со скоростью 15 фреймов в сек
